@@ -18,6 +18,10 @@
 
 </div>
 
+<div id="htmlOl">
+
+</div>
+
 
 </br>
 
@@ -85,6 +89,31 @@
 
     loadPersons();
 
+    function loadPersonsInOrderedList() {
+        $.ajax({
+            url: 'demoRW?action=read'
+        }).done(function (response) {
+            putPersonsInOrderedList(response.pers);
+        })
+    }
+
+    loadPersonsInOrderedList();
+
+    function putPersonsInOrderedList(pers) {
+        var divPersons = document.getElementById('htmlOl');
+
+        //Create and append select list
+        var orderedList = document.createElement("ol");
+        orderedList.id = "personOrderedList";
+        divPersons.appendChild(orderedList);
+
+        //Create and append the options
+        for (var i = 0; i < pers.length; i++) {
+            var listItem = document.createElement("li");
+            listItem.innerText = pers[i];
+            orderedList.appendChild(listItem);
+        }
+    }
 
     // just doing an ajax call
     function loadPersonsInASelect() {
@@ -119,6 +148,7 @@
     function putPersonsInARadio(pers) {
         var divPersons = document.getElementById('htmlRadio');
 
+        var personsOrderedList = document.createElement("ol");
         //Create and append the options
         for (var i = 0; i < pers.length; i++) {
             var label = document.createElement('label');
@@ -157,6 +187,9 @@
             url: 'demoRW?action=write&newName=' + nameP
         }).done(function (response) {
             location.href = "index.html";
+            alert("Successfully reloaded page.")
+        }).fail(function() {
+            alert("A intervenit o eroare. Va rugam incercati mai tarziu.")
         });
     }
 
